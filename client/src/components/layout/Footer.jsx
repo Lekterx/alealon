@@ -37,8 +37,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-8 pt-6 text-center text-xs text-white/40">
-          © {new Date().getFullYear()} Alé Alon — Agenda événementiel de La Réunion
+        <div className="border-t border-white/10 mt-8 pt-6 flex items-center justify-between text-xs text-white/40">
+          <span>© {new Date().getFullYear()} Alé Alon — Agenda événementiel de La Réunion</span>
+          <Link to="/admin" className="hover:text-white transition-colors">Administration</Link>
         </div>
       </div>
     </footer>
