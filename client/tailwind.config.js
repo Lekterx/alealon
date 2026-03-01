@@ -42,8 +42,8 @@ export default {
           alt: '#F4F6F8',
         },
         background: '#FAFBFC',
-        border: '#E5E8EB',
-        text: {
+        line: '#E5E8EB',
+        ink: {
           primary: '#1C2833',
           secondary: '#5D6D7E',
           light: '#ABB2B9',

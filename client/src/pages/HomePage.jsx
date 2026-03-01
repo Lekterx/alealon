@@ -39,23 +39,23 @@ export default function HomePage() {
       {/* Hero */}
       <section className="bg-surface-alt px-4 py-10 md:py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-text-primary mb-2 tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-ink-primary mb-2 tracking-tight">
             Que faire autour de vous ?
           </h1>
-          <p className="text-text-secondary mb-6 text-base md:text-lg">
+          <p className="text-ink-secondary mb-6 text-base md:text-lg">
             Découvrez les événements à La Réunion, maintenant.
           </p>
 
           {/* Search bar */}
           <div className="flex gap-2 max-w-xl mx-auto mb-6">
-            <div className="flex-1 flex items-center gap-2 bg-white border border-border rounded-xl px-4 py-3">
-              <MapPin size={18} className="text-text-light flex-shrink-0" />
+            <div className="flex-1 flex items-center gap-2 bg-white border border-line rounded-xl px-4 py-3">
+              <MapPin size={18} className="text-ink-light flex-shrink-0" />
               <input
                 type="text"
                 placeholder="Rechercher un événement, un lieu..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 text-sm outline-none text-text-primary placeholder:text-text-light"
+                className="flex-1 text-sm outline-none text-ink-primary placeholder:text-ink-light"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && searchQuery.trim()) {
                     window.location.href = `/recherche?q=${encodeURIComponent(searchQuery)}`;
@@ -96,7 +96,7 @@ export default function HomePage() {
       {featuredEvents.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 py-8">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-xl font-bold text-text-primary">À la une</h2>
+            <h2 className="text-xl font-bold text-ink-primary">À la une</h2>
             <Link to="/recherche" className="text-sm font-medium text-primary-light flex items-center gap-1 hover:underline">
               Voir tout <ChevronRight size={16} />
             </Link>
@@ -112,13 +112,13 @@ export default function HomePage() {
       {/* Upcoming events */}
       <section className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xl font-bold text-text-primary">Événements à venir</h2>
+          <h2 className="text-xl font-bold text-ink-primary">Événements à venir</h2>
           <Link to="/recherche" className="text-sm font-medium text-primary-light flex items-center gap-1 hover:underline">
             Voir tout <ChevronRight size={16} />
           </Link>
         </div>
         {loading ? (
-          <div className="text-center py-12 text-text-secondary">Chargement...</div>
+          <div className="text-center py-12 text-ink-secondary">Chargement...</div>
         ) : upcomingEvents.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {upcomingEvents.map(event => (
@@ -126,7 +126,7 @@ export default function HomePage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 text-text-secondary">
+          <div className="text-center py-12 text-ink-secondary">
             <p className="text-lg mb-2">Aucun événement pour le moment</p>
             <p className="text-sm">Revenez bientôt ou <Link to="/proposer" className="text-primary-light underline">proposez un événement</Link> !</p>
           </div>

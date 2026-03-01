@@ -28,25 +28,25 @@ export default function ScrapingAdminPage() {
   };
 
   if (loading) {
-    return <div className="max-w-6xl mx-auto px-4 py-6 text-center text-text-secondary">Chargement...</div>;
+    return <div className="max-w-6xl mx-auto px-4 py-6 text-center text-ink-secondary">Chargement...</div>;
   }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-text-primary mb-6">Sources de scraping</h1>
+      <h1 className="text-2xl font-bold text-ink-primary mb-6">Sources de scraping</h1>
 
       <div className="space-y-3 mb-8">
         {sources.map(src => (
-          <div key={src.id} className="bg-white border border-border rounded-card p-4 shadow-sm flex items-center justify-between">
+          <div key={src.id} className="bg-white border border-line rounded-card p-4 shadow-sm flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2">
                 <Database size={16} className="text-primary-light" />
-                <h3 className="font-semibold text-text-primary">{src.name}</h3>
+                <h3 className="font-semibold text-ink-primary">{src.name}</h3>
                 <Badge color={src.active ? '#27AE60' : '#ABB2B9'}>{src.active ? 'Active' : 'Inactive'}</Badge>
                 <Badge color="#3498DB">Tier {src.tier}</Badge>
               </div>
-              <p className="text-xs text-text-secondary mt-1">{src.url}</p>
-              <p className="text-xs text-text-light mt-0.5">Fréquence : {src.frequency}</p>
+              <p className="text-xs text-ink-secondary mt-1">{src.url}</p>
+              <p className="text-xs text-ink-light mt-0.5">Fréquence : {src.frequency}</p>
             </div>
             <button
               onClick={() => toggleActive(src)}
@@ -58,13 +58,13 @@ export default function ScrapingAdminPage() {
         ))}
       </div>
 
-      <h2 className="text-lg font-bold text-text-primary mb-4">Derniers logs</h2>
+      <h2 className="text-lg font-bold text-ink-primary mb-4">Derniers logs</h2>
       {logs.length === 0 ? (
-        <p className="text-text-secondary text-sm">Aucun log de scraping</p>
+        <p className="text-ink-secondary text-sm">Aucun log de scraping</p>
       ) : (
-        <div className="bg-white border border-border rounded-card overflow-hidden">
+        <div className="bg-white border border-line rounded-card overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-surface-alt text-text-secondary text-xs uppercase">
+            <thead className="bg-surface-alt text-ink-secondary text-xs uppercase">
               <tr>
                 <th className="px-4 py-3 text-left">Date</th>
                 <th className="px-4 py-3 text-left">Source</th>
@@ -74,11 +74,11 @@ export default function ScrapingAdminPage() {
                 <th className="px-4 py-3 text-right">Doublons</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-line">
               {logs.map(log => (
                 <tr key={log.id}>
-                  <td className="px-4 py-3 text-text-secondary">{new Date(log.started_at).toLocaleString('fr-FR')}</td>
-                  <td className="px-4 py-3 text-text-primary">{log.source_id}</td>
+                  <td className="px-4 py-3 text-ink-secondary">{new Date(log.started_at).toLocaleString('fr-FR')}</td>
+                  <td className="px-4 py-3 text-ink-primary">{log.source_id}</td>
                   <td className="px-4 py-3"><Badge color={log.status === 'success' ? '#27AE60' : '#E74C3C'}>{log.status}</Badge></td>
                   <td className="px-4 py-3 text-right">{log.events_found}</td>
                   <td className="px-4 py-3 text-right">{log.events_created}</td>

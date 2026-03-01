@@ -17,7 +17,7 @@ export default function EventCard({ event }) {
 
   return (
     <Link to={`/evenement/${event.slug}`} className="block">
-      <div className="bg-white rounded-card border border-border shadow-sm hover:shadow-md transition-all overflow-hidden">
+      <div className="bg-white rounded-card border border-line shadow-sm hover:shadow-md transition-all overflow-hidden">
         {mainCategory && (
           <div className="h-1" style={{ backgroundColor: mainCategory.color }} />
         )}
@@ -43,15 +43,15 @@ export default function EventCard({ event }) {
               </Badge>
             )}
           </div>
-          <h3 className="font-bold text-base text-text-primary mb-1 line-clamp-2">
+          <h3 className="font-bold text-base text-ink-primary mb-1 line-clamp-2">
             {event.title}
           </h3>
-          <div className="flex items-center gap-1 text-sm text-text-secondary mb-1">
+          <div className="flex items-center gap-1 text-sm text-ink-secondary mb-1">
             <Calendar size={14} />
             <span>{formatDate(event.date_start)}</span>
           </div>
           {(event.commune_name || event.address) && (
-            <div className="flex items-center gap-1 text-sm text-text-secondary">
+            <div className="flex items-center gap-1 text-sm text-ink-secondary">
               <MapPin size={14} />
               <span className="truncate">{event.commune_name || event.address}</span>
             </div>

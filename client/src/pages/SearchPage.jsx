@@ -81,19 +81,19 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold text-text-primary mb-6">Rechercher des événements</h1>
+      <h1 className="text-2xl font-bold text-ink-primary mb-6">Rechercher des événements</h1>
 
       {/* Search bar */}
       <div className="flex gap-2 mb-4">
-        <div className="flex-1 flex items-center gap-2 bg-white border border-border rounded-xl px-4 py-3">
-          <Search size={18} className="text-text-light flex-shrink-0" />
+        <div className="flex-1 flex items-center gap-2 bg-white border border-line rounded-xl px-4 py-3">
+          <Search size={18} className="text-ink-light flex-shrink-0" />
           <input
             type="text"
             placeholder="Rechercher..."
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && doSearch()}
-            className="flex-1 text-sm outline-none text-text-primary placeholder:text-text-light"
+            className="flex-1 text-sm outline-none text-ink-primary placeholder:text-ink-light"
           />
         </div>
         <button onClick={doSearch} className="bg-accent text-white font-semibold text-sm px-5 py-3 rounded-xl hover:bg-accent-900 transition-colors">
@@ -101,7 +101,7 @@ export default function SearchPage() {
         </button>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`flex items-center gap-1 px-4 py-3 rounded-xl text-sm font-medium border transition-colors ${showFilters ? 'bg-primary text-white border-primary' : 'bg-white text-text-secondary border-border hover:border-primary'}`}
+          className={`flex items-center gap-1 px-4 py-3 rounded-xl text-sm font-medium border transition-colors ${showFilters ? 'bg-primary text-white border-primary' : 'bg-white text-ink-secondary border-line hover:border-primary'}`}
         >
           <Filter size={16} />
           <span className="hidden sm:inline">Filtres</span>
@@ -110,9 +110,9 @@ export default function SearchPage() {
 
       {/* Filters panel */}
       {showFilters && (
-        <div className="bg-white border border-border rounded-card p-5 mb-6">
+        <div className="bg-white border border-line rounded-card p-5 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold text-text-primary">Filtres</h3>
+            <h3 className="font-semibold text-ink-primary">Filtres</h3>
             <button onClick={clearFilters} className="text-xs text-primary-light hover:underline flex items-center gap-1">
               <X size={14} /> Réinitialiser
             </button>
@@ -120,7 +120,7 @@ export default function SearchPage() {
 
           {/* Categories */}
           <div className="mb-4">
-            <label className="text-sm font-medium text-text-secondary mb-2 block">Catégories</label>
+            <label className="text-sm font-medium text-ink-secondary mb-2 block">Catégories</label>
             <div className="flex flex-wrap gap-2">
               {categories.map(cat => (
                 <CategoryChip
@@ -137,11 +137,11 @@ export default function SearchPage() {
           {/* Commune */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             <div>
-              <label className="text-sm font-medium text-text-secondary mb-1 block">Commune</label>
+              <label className="text-sm font-medium text-ink-secondary mb-1 block">Commune</label>
               <select
                 value={selectedCommune}
                 onChange={(e) => setSelectedCommune(e.target.value)}
-                className="w-full border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+                className="w-full border border-line rounded-lg px-3 py-2 text-sm text-ink-primary"
               >
                 <option value="">Toutes les communes</option>
                 {Object.entries(communesByRegion).map(([region, coms]) => (
@@ -154,17 +154,17 @@ export default function SearchPage() {
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium text-text-secondary mb-1 block">Du</label>
-              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="w-full border border-border rounded-lg px-3 py-2 text-sm text-text-primary" />
+              <label className="text-sm font-medium text-ink-secondary mb-1 block">Du</label>
+              <input type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)} className="w-full border border-line rounded-lg px-3 py-2 text-sm text-ink-primary" />
             </div>
             <div>
-              <label className="text-sm font-medium text-text-secondary mb-1 block">Au</label>
-              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="w-full border border-border rounded-lg px-3 py-2 text-sm text-text-primary" />
+              <label className="text-sm font-medium text-ink-secondary mb-1 block">Au</label>
+              <input type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)} className="w-full border border-line rounded-lg px-3 py-2 text-sm text-ink-primary" />
             </div>
           </div>
 
           {/* Free only */}
-          <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
+          <label className="flex items-center gap-2 text-sm text-ink-secondary cursor-pointer">
             <input type="checkbox" checked={freeOnly} onChange={(e) => setFreeOnly(e.target.checked)} className="rounded" />
             Gratuit uniquement
           </label>
@@ -177,10 +177,10 @@ export default function SearchPage() {
 
       {/* Results */}
       {loading ? (
-        <div className="text-center py-12 text-text-secondary">Chargement...</div>
+        <div className="text-center py-12 text-ink-secondary">Chargement...</div>
       ) : events.length > 0 ? (
         <>
-          <p className="text-sm text-text-secondary mb-4">{events.length} événement{events.length > 1 ? 's' : ''} trouvé{events.length > 1 ? 's' : ''}</p>
+          <p className="text-sm text-ink-secondary mb-4">{events.length} événement{events.length > 1 ? 's' : ''} trouvé{events.length > 1 ? 's' : ''}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {events.map(event => (
               <EventCard key={event.id} event={event} />
@@ -188,7 +188,7 @@ export default function SearchPage() {
           </div>
         </>
       ) : (
-        <div className="text-center py-12 text-text-secondary">
+        <div className="text-center py-12 text-ink-secondary">
           <p className="text-lg mb-2">Aucun événement trouvé</p>
           <p className="text-sm">Essayez de modifier vos critères de recherche.</p>
         </div>

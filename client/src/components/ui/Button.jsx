@@ -5,7 +5,7 @@ export default function Button({ children, variant = 'primary', className = '', 
   const variants = {
     primary: 'bg-accent text-white hover:bg-accent-900',
     secondary: 'bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-white',
-    ghost: 'bg-surface-alt text-text-secondary hover:bg-border',
+    ghost: 'bg-surface-alt text-ink-secondary hover:bg-line',
     danger: 'bg-red-600 text-white hover:bg-red-700',
   };
 

@@ -100,11 +100,11 @@ export default function EventFormPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
-      <button onClick={() => navigate('/admin/events')} className="inline-flex items-center gap-1 text-sm text-text-secondary hover:text-primary-light mb-4">
+      <button onClick={() => navigate('/admin/events')} className="inline-flex items-center gap-1 text-sm text-ink-secondary hover:text-primary-light mb-4">
         <ArrowLeft size={16} /> Retour
       </button>
 
-      <h1 className="text-2xl font-bold text-text-primary mb-6">
+      <h1 className="text-2xl font-bold text-ink-primary mb-6">
         {isEdit ? 'Modifier l\'événement' : 'Créer un événement'}
       </h1>
 
@@ -112,17 +112,17 @@ export default function EventFormPage() {
         {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3">{error}</div>}
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Titre *</label>
-          <input type="text" name="title" value={form.title} onChange={handleChange} required className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+          <label className="block text-sm font-medium text-ink-primary mb-1">Titre *</label>
+          <input type="text" name="title" value={form.title} onChange={handleChange} required className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Description *</label>
-          <textarea name="description" value={form.description} onChange={handleChange} required rows={5} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm resize-y" />
+          <label className="block text-sm font-medium text-ink-primary mb-1">Description *</label>
+          <textarea name="description" value={form.description} onChange={handleChange} required rows={5} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm resize-y" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-2">Catégories</label>
+          <label className="block text-sm font-medium text-ink-primary mb-2">Catégories</label>
           <div className="flex flex-wrap gap-2">
             {categories.map(cat => (
               <button type="button" key={cat.id} onClick={() => handleCategoryToggle(cat.id)}
@@ -140,18 +140,18 @@ export default function EventFormPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Date de début *</label>
-            <input type="datetime-local" name="date_start" value={form.date_start} onChange={handleChange} required className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+            <label className="block text-sm font-medium text-ink-primary mb-1">Date de début *</label>
+            <input type="datetime-local" name="date_start" value={form.date_start} onChange={handleChange} required className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Date de fin</label>
-            <input type="datetime-local" name="date_end" value={form.date_end} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+            <label className="block text-sm font-medium text-ink-primary mb-1">Date de fin</label>
+            <input type="datetime-local" name="date_end" value={form.date_end} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Récurrence</label>
-          <select name="recurrence" value={form.recurrence} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm">
+          <label className="block text-sm font-medium text-ink-primary mb-1">Récurrence</label>
+          <select name="recurrence" value={form.recurrence} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm">
             <option value="unique">Unique</option>
             <option value="daily">Quotidien</option>
             <option value="weekly">Hebdomadaire</option>
@@ -160,13 +160,13 @@ export default function EventFormPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Adresse *</label>
-          <input type="text" name="address" value={form.address} onChange={handleChange} required className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+          <label className="block text-sm font-medium text-ink-primary mb-1">Adresse *</label>
+          <input type="text" name="address" value={form.address} onChange={handleChange} required className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Commune</label>
-          <select name="commune_id" value={form.commune_id} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm">
+          <label className="block text-sm font-medium text-ink-primary mb-1">Commune</label>
+          <select name="commune_id" value={form.commune_id} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm">
             <option value="">Sélectionner</option>
             {Object.entries(communesByRegion).map(([region, coms]) => (
               <optgroup key={region} label={region}>
@@ -177,41 +177,41 @@ export default function EventFormPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Image</label>
+          <label className="block text-sm font-medium text-ink-primary mb-1">Image</label>
           <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} className="w-full text-sm" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Tarif</label>
-            <input type="text" name="price" value={form.price} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+            <label className="block text-sm font-medium text-ink-primary mb-1">Tarif</label>
+            <input type="text" name="price" value={form.price} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Organisateur</label>
-            <input type="text" name="organizer" value={form.organizer} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+            <label className="block text-sm font-medium text-ink-primary mb-1">Organisateur</label>
+            <input type="text" name="organizer" value={form.organizer} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text-primary mb-1">Lien externe</label>
-          <input type="url" name="external_link" value={form.external_link} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+          <label className="block text-sm font-medium text-ink-primary mb-1">Lien externe</label>
+          <input type="url" name="external_link" value={form.external_link} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Email contact</label>
-            <input type="email" name="contact_email" value={form.contact_email} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+            <label className="block text-sm font-medium text-ink-primary mb-1">Email contact</label>
+            <input type="email" name="contact_email" value={form.contact_email} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Téléphone</label>
-            <input type="tel" name="contact_phone" value={form.contact_phone} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm" />
+            <label className="block text-sm font-medium text-ink-primary mb-1">Téléphone</label>
+            <input type="tel" name="contact_phone" value={form.contact_phone} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-text-primary mb-1">Statut</label>
-            <select name="status" value={form.status} onChange={handleChange} className="w-full border border-border rounded-lg px-3 py-2.5 text-sm">
+            <label className="block text-sm font-medium text-ink-primary mb-1">Statut</label>
+            <select name="status" value={form.status} onChange={handleChange} className="w-full border border-line rounded-lg px-3 py-2.5 text-sm">
               <option value="draft">Brouillon</option>
               <option value="published">Publié</option>
               <option value="pending">En attente</option>
@@ -222,7 +222,7 @@ export default function EventFormPage() {
           <div className="flex items-end pb-1">
             <label className="flex items-center gap-2 text-sm cursor-pointer">
               <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} />
-              <span className="font-medium text-text-primary">À la une</span>
+              <span className="font-medium text-ink-primary">À la une</span>
             </label>
           </div>
         </div>

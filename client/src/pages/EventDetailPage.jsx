@@ -36,13 +36,13 @@ export default function EventDetailPage() {
   };
 
   if (loading) {
-    return <div className="max-w-3xl mx-auto px-4 py-12 text-center text-text-secondary">Chargement...</div>;
+    return <div className="max-w-3xl mx-auto px-4 py-12 text-center text-ink-secondary">Chargement...</div>;
   }
 
   if (!event) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-        <p className="text-lg text-text-secondary mb-4">Événement introuvable</p>
+        <p className="text-lg text-ink-secondary mb-4">Événement introuvable</p>
         <Link to="/" className="text-primary-light hover:underline">Retour à l'accueil</Link>
       </div>
     );
@@ -53,7 +53,7 @@ export default function EventDetailPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
       {/* Back link */}
-      <Link to="/" className="inline-flex items-center gap-1 text-sm text-text-secondary hover:text-primary-light mb-4">
+      <Link to="/" className="inline-flex items-center gap-1 text-sm text-ink-secondary hover:text-primary-light mb-4">
         <ArrowLeft size={16} />
         Retour
       </Link>
@@ -76,38 +76,38 @@ export default function EventDetailPage() {
       </div>
 
       {/* Title */}
-      <h1 className="text-2xl md:text-3xl font-extrabold text-text-primary mb-4">{event.title}</h1>
+      <h1 className="text-2xl md:text-3xl font-extrabold text-ink-primary mb-4">{event.title}</h1>
 
       {/* Meta info */}
       <div className="bg-surface-alt rounded-card p-4 mb-6 space-y-2">
-        <div className="flex items-center gap-2 text-sm text-text-secondary">
+        <div className="flex items-center gap-2 text-sm text-ink-secondary">
           <Calendar size={16} className="text-primary-light flex-shrink-0" />
           <span>{formatDate(event.date_start)}</span>
           {event.date_end && <span>— {formatDate(event.date_end)}</span>}
         </div>
-        <div className="flex items-center gap-2 text-sm text-text-secondary">
+        <div className="flex items-center gap-2 text-sm text-ink-secondary">
           <MapPin size={16} className="text-primary-light flex-shrink-0" />
           <span>{event.address}{event.commune_name ? `, ${event.commune_name}` : ''}</span>
         </div>
         {event.price && (
-          <div className="text-sm text-text-secondary">
+          <div className="text-sm text-ink-secondary">
             <span className="font-medium">Tarif :</span> {event.price}
           </div>
         )}
         {event.organizer && (
-          <div className="flex items-center gap-2 text-sm text-text-secondary">
+          <div className="flex items-center gap-2 text-sm text-ink-secondary">
             <User size={16} className="text-primary-light flex-shrink-0" />
             <span>{event.organizer}</span>
           </div>
         )}
         {event.contact_email && (
-          <div className="flex items-center gap-2 text-sm text-text-secondary">
+          <div className="flex items-center gap-2 text-sm text-ink-secondary">
             <Mail size={16} className="text-primary-light flex-shrink-0" />
             <a href={`mailto:${event.contact_email}`} className="text-primary-light hover:underline">{event.contact_email}</a>
           </div>
         )}
         {event.contact_phone && (
-          <div className="flex items-center gap-2 text-sm text-text-secondary">
+          <div className="flex items-center gap-2 text-sm text-ink-secondary">
             <Phone size={16} className="text-primary-light flex-shrink-0" />
             <a href={`tel:${event.contact_phone}`} className="text-primary-light hover:underline">{event.contact_phone}</a>
           </div>
@@ -115,7 +115,7 @@ export default function EventDetailPage() {
       </div>
 
       {/* Description */}
-      <div className="prose prose-sm max-w-none mb-6 text-text-primary leading-relaxed whitespace-pre-wrap">
+      <div className="prose prose-sm max-w-none mb-6 text-ink-primary leading-relaxed whitespace-pre-wrap">
         {event.description}
       </div>
 
