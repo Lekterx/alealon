@@ -1,4 +1,6 @@
 const scrapingModel = require('../models/scrapingModel');
+const { runScraper } = require('../services/scraping/scraperRunner');
+const logger = require('../utils/logger');
 
 async function listSources(req, res, next) {
   try {
@@ -44,4 +46,14 @@ async function listLogs(req, res, next) {
   } catch (err) { next(err); }
 }
 
-module.exports = { listSources, getSource, createSource, updateSource, deleteSource, listLogs };
+async function runSource(req, res, next) {
+  try {
+    const sourceId = parseInt(req.params.id);
+    const log = await runScraper(sourceId);
+    res.json(log);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { listSources, getSource, createSource, updateSource, deleteSource, listLogs, runSource };
