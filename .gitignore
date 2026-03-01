@@ -1,0 +1,11 @@
+node_modules/
+.env
+.DS_Store
+uploads/*
+!uploads/.gitkeep
+dist/
+*.log
+.vite/
+template-nouveau-projet-CLAUDE.md
+CDC_Fonctionnel_*.docx
+charte-graphique-*.jsx
