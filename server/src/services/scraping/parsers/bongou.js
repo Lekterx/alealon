@@ -1,82 +1,88 @@
-const { parseFrenchDate } = require('../utils/dateParser');
 const { mapCommune } = require('../utils/communeMapper');
 const { mapCategories } = require('../utils/categoryMapper');
 
-const MONTH_ABBR = {
-  'JAN': 'janvier', 'FÉV': 'février', 'FEV': 'février', 'MAR': 'mars',
-  'AVR': 'avril', 'MAI': 'mai', 'JUN': 'juin', 'JUI': 'juillet',
-  'JUIL': 'juillet', 'AOÛ': 'août', 'AOU': 'août', 'SEP': 'septembre',
-  'OCT': 'octobre', 'NOV': 'novembre', 'DÉC': 'décembre', 'DEC': 'décembre',
-};
-
-async function parse($, source) {
+/**
+ * Parser for bongou.re (Squarespace site).
+ * The /agenda page no longer exists — events are JS-rendered.
+ * We try the Squarespace JSON API; if no items, return empty.
+ */
+async function parse($, source, { axios }) {
   const events = [];
 
-  $('article.eventlist-event').each((i, el) => {
-    const $el = $(el);
+  // Squarespace JSON API — try /sorties?format=json or /?format=json
+  const baseUrl = source.url.replace(/\/$/, '');
+  const jsonUrls = [
+    `${baseUrl}?format=json`,
+    'https://bongou.re/?format=json',
+  ];
 
-    const title = $el.find('.eventlist-title-link').text().trim();
-    if (!title) return;
+  let items = [];
+  for (const url of jsonUrls) {
+    try {
+      const res = await axios.get(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'application/json' },
+        timeout: 10000,
+      });
+      if (res.data?.items?.length > 0) {
+        items = res.data.items;
+        break;
+      }
+      if (res.data?.upcoming?.length > 0) {
+        items = res.data.upcoming;
+        break;
+      }
+    } catch {
+      // Try next URL
+    }
+  }
 
-    // Date: month abbreviation (e.g. "JAN") + day (e.g. "15")
-    const monthAbbr = $el.find('.eventlist-datetag-startdate--month').text().trim().toUpperCase();
-    const day = $el.find('.eventlist-datetag-startdate--day').text().trim();
-    const monthFull = MONTH_ABBR[monthAbbr] || monthAbbr.toLowerCase();
-    const dateStart = parseFrenchDate(`${day} ${monthFull}`);
-    if (!dateStart) return;
+  if (items.length === 0) return events;
 
-    // Address
-    const addressEl = $el.find('.eventlist-meta-address');
-    // Remove the map link text
-    const addressClone = addressEl.clone();
-    addressClone.find('.eventlist-meta-address-maplink').remove();
-    const address = addressClone.text().trim();
+  for (const item of items) {
+    const title = item.title?.trim();
+    if (!title) continue;
 
-    // Category
-    const categoryText = $el.find('.eventlist-cats').text().trim();
+    // Squarespace stores dates as epoch milliseconds
+    const startDate = item.startDate || item.publishOn;
+    if (!startDate) continue;
+    const dateStart = new Date(startDate);
+    if (isNaN(dateStart.getTime())) continue;
 
-    // Link
-    const link = $el.find('.eventlist-title-link').attr('href');
-    const external_link = link
-      ? (link.startsWith('http') ? link : `https://bongou.re${link}`)
+    const dateEnd = item.endDate ? new Date(item.endDate) : null;
+
+    const external_link = item.fullUrl
+      ? (item.fullUrl.startsWith('http') ? item.fullUrl : `https://bongou.re${item.fullUrl}`)
       : null;
 
-    // Image
-    let image_url = $el.find('.eventlist-thumbnail').attr('data-src')
-      || $el.find('.eventlist-thumbnail').attr('src')
-      || null;
-    if (image_url && !image_url.startsWith('http')) {
-      image_url = `https://bongou.re${image_url}`;
-    }
+    const image_url = item.assetUrl || item.socialImageUrl || null;
+
+    const address = item.location?.addressLine1 || item.location?.addressTitle || '';
 
     events.push({
       title,
       date_start: dateStart,
-      date_end: null,
-      description: null,
+      date_end: dateEnd && !isNaN(dateEnd.getTime()) ? dateEnd : null,
+      description: item.excerpt || null,
       address,
-      commune_id: null, // resolved below
+      commune_id: null,
       image_url,
       external_link,
       price: null,
       organizer: null,
-      category_ids: null, // resolved below
-      latitude: null,
-      longitude: null,
-      _categoryText: categoryText,
+      category_ids: null,
+      latitude: item.location?.mapLat || null,
+      longitude: item.location?.mapLng || null,
       _address: address,
+      _categoryText: (item.categories || []).join(' ') + ' ' + title,
     });
-  });
+  }
 
   // Resolve async mappings
   for (const event of events) {
     event.commune_id = await mapCommune(event._address);
-    event.category_ids = await mapCategories(
-      event._categoryText + ' ' + event.title,
-      source.category_mapping
-    );
-    delete event._categoryText;
+    event.category_ids = await mapCategories(event._categoryText, source.category_mapping);
     delete event._address;
+    delete event._categoryText;
   }
 
   return events;

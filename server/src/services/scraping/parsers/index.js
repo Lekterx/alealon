@@ -3,6 +3,7 @@ const azenda = require('./azenda');
 const guideReunion = require('./guideReunion');
 const ouestReunion = require('./ouestReunion');
 const estReunion = require('./estReunion');
+const monticket = require('./monticket');
 
 const PARSERS = {
   'bongou.re': bongou,
@@ -10,6 +11,7 @@ const PARSERS = {
   'guide-reunion.fr': guideReunion,
   'ouest-lareunion.com': ouestReunion,
   'reunionest.fr': estReunion,
+  'monticket.re': monticket,
 };
 
 function getParser(source) {

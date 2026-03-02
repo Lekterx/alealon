@@ -13,9 +13,14 @@ const FRENCH_MONTHS = {
   'décembre': 11, 'dec': 11, 'decembre': 11,
 };
 
+// Use noon UTC to avoid timezone day-shift issues
+function makeDate(year, month, day) {
+  return new Date(Date.UTC(year, month, day, 12, 0, 0));
+}
+
 /**
  * Parse a French date string into a Date object.
- * Handles: "15 mars", "15 mars 2025", "Le 15 mars", "Sam. 15 mars", "15/03/2025"
+ * Handles: "15 mars", "15 mars 2025", "Le 15 mars", "Sam. 15 mars", "15/03/2025", "24/04"
  */
 function parseFrenchDate(text) {
   if (!text) return null;
@@ -25,7 +30,21 @@ function parseFrenchDate(text) {
   // Try DD/MM/YYYY
   const slashMatch = clean.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if (slashMatch) {
-    return new Date(parseInt(slashMatch[3]), parseInt(slashMatch[2]) - 1, parseInt(slashMatch[1]));
+    return makeDate(parseInt(slashMatch[3]), parseInt(slashMatch[2]) - 1, parseInt(slashMatch[1]));
+  }
+
+  // Try DD/MM (without year — assume current or next year)
+  const shortSlashMatch = clean.match(/(\d{1,2})\/(\d{1,2})(?!\d)/);
+  if (shortSlashMatch) {
+    const day = parseInt(shortSlashMatch[1]);
+    const month = parseInt(shortSlashMatch[2]) - 1;
+    const now = new Date();
+    let year = now.getFullYear();
+    const candidate = makeDate(year, month, day);
+    if (candidate < new Date(now.getTime() - 7 * 24 * 3600 * 1000)) {
+      year++;
+    }
+    return makeDate(year, month, day);
   }
 
   // Try "DD monthName YYYY?" pattern
@@ -40,13 +59,13 @@ function parseFrenchDate(text) {
     if (!year) {
       const now = new Date();
       year = now.getFullYear();
-      const candidate = new Date(year, month, day);
+      const candidate = makeDate(year, month, day);
       if (candidate < new Date(now.getTime() - 7 * 24 * 3600 * 1000)) {
         year++;
       }
     }
 
-    return new Date(year, month, day);
+    return makeDate(year, month, day);
   }
 
   return null;
@@ -70,8 +89,8 @@ function parseFrenchDateRange(text) {
     if (month === undefined) return { start: null, end: null };
     const year = rangeMatch[4] ? parseInt(rangeMatch[4]) : new Date().getFullYear();
     return {
-      start: new Date(year, month, dayStart),
-      end: new Date(year, month, dayEnd),
+      start: makeDate(year, month, dayStart),
+      end: makeDate(year, month, dayEnd),
     };
   }
 
@@ -83,8 +102,8 @@ function parseFrenchDateRange(text) {
     const monthEnd = FRENCH_MONTHS[crossMonthMatch[4].replace('.', '')];
     if (monthStart === undefined || monthEnd === undefined) return { start: null, end: null };
     return {
-      start: new Date(year, monthStart, parseInt(crossMonthMatch[1])),
-      end: new Date(year, monthEnd, parseInt(crossMonthMatch[3])),
+      start: makeDate(year, monthStart, parseInt(crossMonthMatch[1])),
+      end: makeDate(year, monthEnd, parseInt(crossMonthMatch[3])),
     };
   }
 

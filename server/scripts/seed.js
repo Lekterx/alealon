@@ -104,6 +104,7 @@ async function seed() {
       { name: 'Bongou.re', url: 'https://bongou.re/sorties', tier: 1, frequency: 'daily' },
       { name: 'Office Tourisme Ouest', url: 'https://www.ouest-lareunion.com/agenda', tier: 1, frequency: 'daily' },
       { name: 'Office Tourisme Est', url: 'https://www.reunionest.fr/agenda-et-evenements', tier: 1, frequency: 'daily' },
+      { name: 'MonTicket.re', url: 'https://monticket.re', tier: 1, frequency: 'daily' },
     ];
 
     for (const src of sources) {

@@ -16,14 +16,15 @@ async function runScraper(sourceId) {
   const stats = { events_found: 0, events_created: 0, events_duplicated: 0, errors: [] };
 
   try {
-    // 1. Fetch HTML
+    // 1. Fetch HTML (use browser-like UA to avoid blocks)
     const response = await axios.get(source.url, {
       headers: {
-        'User-Agent': 'AleAlon-Bot/1.0 (+https://alealon.levyjulien.com)',
-        'Accept': 'text/html,application/xhtml+xml',
-        'Accept-Language': 'fr-FR,fr;q=0.9',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
       },
-      timeout: 15000,
+      timeout: 20000,
+      maxRedirects: 5,
     });
 
     // 2. Parse with cheerio
@@ -33,8 +34,8 @@ async function runScraper(sourceId) {
     const parser = getParser(source);
     if (!parser) throw new Error(`Aucun parser pour la source: ${source.name}`);
 
-    // 4. Extract raw events
-    const rawEvents = await parser.parse($, source);
+    // 4. Extract raw events (pass axios for parsers that need HTTP access)
+    const rawEvents = await parser.parse($, source, { axios });
     stats.events_found = rawEvents.length;
     logger.info(`[Scraper] ${source.name}: ${rawEvents.length} événements trouvés`);
 
